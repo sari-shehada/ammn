@@ -1,3 +1,4 @@
+import 'package:ammn/config/theme.dart';
 import 'package:ammn/domain/pages/loader_page/controllers/loader_page_controller.dart';
 import 'package:ammn/domain/pages/loader_page/views/loader_page.dart';
 import 'package:flutter/material.dart';
@@ -24,11 +25,21 @@ class Application extends StatelessWidget {
       builder: (_, __) => GetMaterialApp(
         locale: const Locale('ar'),
         title: 'AMMN',
+        theme: appTheme,
         home: const LoaderPage(),
         initialBinding: BindingsBuilder.put(
           () => LoaderPageController(),
         ),
+        scrollBehavior: MyBehavior(),
       ),
     );
+  }
+}
+
+class MyBehavior extends ScrollBehavior {
+  @override
+  Widget buildOverscrollIndicator(
+      BuildContext context, Widget child, ScrollableDetails details) {
+    return child;
   }
 }

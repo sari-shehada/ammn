@@ -23,6 +23,27 @@ class LoaderPage extends StatelessWidget {
             ),
           ],
         ),
+        // child: Animate(
+        //   autoPlay: true,
+        //   onComplete: (controller) async =>
+        //       Future.delayed(500.milliseconds).then(
+        //     (value) {
+        //       if (controller.status == AnimationStatus.completed) {
+        //         controller.reverse().then(
+        //               (value) => controller.forward(),
+        //             );
+        //       }
+        //     },
+        //   ),
+        //   effects: [
+        //     FadeEffect(
+        //       begin: .35,
+        //       end: 1,
+        //       duration: 500.milliseconds,
+        //     )
+        //   ],
+        //   child:
+        // ),
       ),
     );
   }
