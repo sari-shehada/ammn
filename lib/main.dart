@@ -1,14 +1,13 @@
+import 'package:ammn/config/scroll_behavior.dart';
 import 'package:ammn/config/theme.dart';
 import 'package:ammn/domain/pages/loader_page/controllers/loader_page_controller.dart';
 import 'package:ammn/domain/pages/loader_page/views/loader_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await SharedPreferences.getInstance(); //TODO: Assign to a global var
   runApp(
     const Application(),
   );
@@ -30,16 +29,8 @@ class Application extends StatelessWidget {
         initialBinding: BindingsBuilder.put(
           () => LoaderPageController(),
         ),
-        scrollBehavior: MyBehavior(),
+        scrollBehavior: CustomScrollBehavior(),
       ),
     );
-  }
-}
-
-class MyBehavior extends ScrollBehavior {
-  @override
-  Widget buildOverscrollIndicator(
-      BuildContext context, Widget child, ScrollableDetails details) {
-    return child;
   }
 }

@@ -1,19 +1,16 @@
 import 'package:ammn/config/colors.dart';
-import 'package:ammn/domain/shared_widgets/app_image_logo.dart';
-import 'package:ammn/domain/shared_widgets/app_test_logo.dart';
+import 'package:ammn/domain/pages/login_page/controllers/login_page_controller.dart';
+import 'package:ammn/domain/shared_widgets/app_full_logo.dart';
+import 'package:ammn/ui_utils/custom_button.dart';
+import 'package:ammn/ui_utils/custom_text_field.dart';
 import 'package:ammn/ui_utils/spacing_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends GetView<LoginPageController> {
   const LoginPage({super.key});
 
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  bool passwordHidden = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
             AddVerticalSpacing(
               value: MediaQuery.of(context).padding.top + kToolbarHeight.h,
             ),
-            const AppLogoWithText(),
+            const AppFullLogo(),
             AddVerticalSpacing(value: 10.h),
             Align(
               child: Text(
@@ -57,15 +54,18 @@ class _LoginPageState extends State<LoginPage> {
               leadingIcon: Icons.mail,
             ),
             AddVerticalSpacing(value: 10.h),
-            CustomTextField(
-              title: 'كلمة المرور',
-              leadingIcon: Icons.lock,
-              obscureText: passwordHidden,
-              textAlign: TextAlign.center,
-              suffixIconColor: AppColors.primary,
-              suffixIcon:
-                  passwordHidden ? Icons.visibility : Icons.visibility_off,
-              suffixIconCallback: togglePasswordVisibility,
+            Obx(
+              () => CustomTextField(
+                title: 'كلمة المرور',
+                leadingIcon: Icons.lock,
+                obscureText: controller.passwordHidden.value,
+                textAlign: TextAlign.center,
+                suffixIconColor: AppColors.primary,
+                suffixIcon: controller.passwordHidden.value
+                    ? Icons.visibility
+                    : Icons.visibility_off,
+                suffixIconCallback: controller.togglePasswordVisibility,
+              ),
             ),
             AddVerticalSpacing(value: 30.h),
             Align(
@@ -86,8 +86,8 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             AddVerticalSpacing(value: 120.h),
-            Align(
-              child: const CustomButton(),
+            const Align(
+              child: CustomButton(),
             ),
             AddVerticalSpacing(value: 40.h),
             Row(
@@ -117,125 +117,6 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
       ),
-    );
-  }
-
-  void togglePasswordVisibility() {
-    passwordHidden = !passwordHidden;
-    setState(() {});
-  }
-}
-
-class CustomButton extends StatelessWidget {
-  const CustomButton({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 42.h,
-      width: MediaQuery.of(context).size.width * 0.54,
-      decoration: BoxDecoration(
-        color: AppColors.secondaryDark,
-        borderRadius: BorderRadius.circular(11.r),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.black.withOpacity(.08),
-            blurRadius: 20,
-          ),
-        ],
-      ),
-      clipBehavior: Clip.hardEdge,
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: () {},
-          child: Center(
-            child: Text(
-              'تسجيل الدخول',
-              style: TextStyle(
-                fontSize: 16.sp,
-                color: AppColors.white,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class CustomTextField extends StatelessWidget {
-  const CustomTextField({
-    super.key,
-    required this.title,
-    required this.leadingIcon,
-    this.textAlign = TextAlign.start,
-    this.obscureText = false,
-    this.suffixIcon,
-    this.suffixIconColor,
-    this.suffixIconCallback,
-  });
-
-  final String title;
-  final IconData leadingIcon;
-  final IconData? suffixIcon;
-  final TextAlign textAlign;
-  final Color? suffixIconColor;
-  final bool obscureText;
-  final VoidCallback? suffixIconCallback;
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      textAlign: textAlign,
-      obscureText: obscureText,
-      style: TextStyle(
-        fontSize: 20.sp,
-        height: 1.8.h,
-      ),
-      decoration: InputDecoration(
-        floatingLabelStyle: TextStyle(
-          fontSize: 22.sp,
-        ),
-        contentPadding: EdgeInsets.symmetric(vertical: 10.h),
-        label: Text(title),
-        prefixIcon: Icon(
-          leadingIcon,
-          color: Colors.black,
-        ),
-        suffixIcon: suffixIcon == null
-            ? null
-            : InkWell(
-                onTap: suffixIconCallback,
-                child: Icon(
-                  suffixIcon,
-                  color: suffixIconColor,
-                ),
-              ),
-      ),
-    );
-  }
-}
-
-class AppLogoWithText extends StatelessWidget {
-  const AppLogoWithText({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        AppImageLogo(
-          dimension: 160.sp,
-        ),
-        AddHorizontalSpacing(value: 10.w),
-        AppTextLogo(
-          dimension: 110.sp,
-        ),
-      ],
     );
   }
 }

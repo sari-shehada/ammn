@@ -1,3 +1,4 @@
+import 'package:ammn/domain/pages/login_page/controllers/login_page_controller.dart';
 import 'package:ammn/domain/pages/login_page/views/login_page.dart';
 import 'package:get/get.dart';
 
@@ -12,6 +13,9 @@ class LoaderPageController extends GetxController {
     await Future.delayed(1500.milliseconds);
     Get.offAll(
       () => const LoginPage(),
+      binding: BindingsBuilder.put(
+        () => LoginPageController(),
+      ),
     );
   }
 }
